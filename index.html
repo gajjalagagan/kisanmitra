@@ -1,0 +1,972 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#15803d">
+  <meta name="description" content="KisanMitra provides multilingual farming guidance, crop water estimates, and responsible pest management.">
+  <title>KisanMitra | Smart Farming</title>
+
+  <style>
+    :root {
+      --green: #15803d;
+      --dark: #123524;
+      --mint: #dcfce7;
+      --text: #18352a;
+      --muted: #607568;
+      --shadow: 0 12px 35px #12352412;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, #f0fdf4, #ecfeff, #f7fee7);
+      min-height: 100vh;
+    }
+
+    header {
+      background: #ffffffdf;
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid #d1fae5;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: auto;
+      padding: 16px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 850;
+      color: var(--green);
+      letter-spacing: -1px;
+    }
+
+    .logo span { color: #0891b2; }
+
+    select, input, button { font: inherit; }
+
+    select, input {
+      width: 100%;
+      border: 1px solid #cbded0;
+      border-radius: 12px;
+      padding: 12px;
+      background: white;
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus {
+      border-color: #16a34a;
+      box-shadow: 0 0 0 3px #22c55e20;
+    }
+
+    .language { width: auto; min-width: 145px; }
+
+    .hero {
+      max-width: 1200px;
+      margin: auto;
+      padding: 58px 22px 35px;
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      align-items: center;
+      gap: 35px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      color: var(--green);
+      background: var(--mint);
+      border-radius: 30px;
+      padding: 9px 15px;
+      font-size: 13px;
+      font-weight: 750;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(35px, 5vw, 59px);
+      line-height: 1.1;
+      letter-spacing: -2px;
+      margin-bottom: 18px;
+      color: var(--dark);
+    }
+
+    h1 span { color: #16a34a; }
+
+    .hero p {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 600px;
+    }
+
+    .hero-art {
+      min-height: 250px;
+      border-radius: 30px;
+      background: linear-gradient(140deg, #14532d, #16a34a, #0891b2);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 25px 60px #16653425;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-art::before, .hero-art::after {
+      content: "";
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      border-radius: 50%;
+      border: 1px solid #ffffff35;
+    }
+
+    .hero-art::after { width: 310px; height: 310px; }
+
+    .hero-art div {
+      z-index: 1;
+      font-size: 105px;
+      filter: drop-shadow(0 12px 12px #0003);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      50% { transform: translateY(-12px); }
+    }
+
+    main {
+      max-width: 1200px;
+      padding: 10px 22px 60px;
+      margin: auto;
+    }
+
+    .section-title { margin: 20px 0 22px; }
+    .section-title h2 { font-size: 28px; margin-bottom: 8px; }
+    .section-title p { color: var(--muted); line-height: 1.7; }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: #ffffffc9;
+      border: 1px solid white;
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(15px);
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px #12352418;
+    }
+
+    .card-heading {
+      display: flex;
+      gap: 13px;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      background: var(--mint);
+      flex-shrink: 0;
+    }
+
+    .card h3 { font-size: 21px; }
+    .card-heading p { color: var(--muted); font-size: 13px; margin-top: 5px; }
+    .field { margin-bottom: 17px; }
+
+    .field label {
+      display: block;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 13px;
+      padding: 14px 18px;
+      background: linear-gradient(110deg, #15803d, #16a34a);
+      color: white;
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform .2s, filter .2s;
+    }
+
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.06); }
+    .btn:focus-visible { outline: 3px solid #0891b2; outline-offset: 3px; }
+
+    .result {
+      margin-top: 20px;
+      padding: 19px;
+      border-radius: 17px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    .result h4 { color: #166534; margin-bottom: 10px; }
+    .result strong { color: #166534; }
+
+    .notice {
+      padding: 13px;
+      background: #fffbeb;
+      border-left: 4px solid #eab308;
+      border-radius: 8px;
+      margin-top: 14px;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .small { color: var(--muted); font-size: 13px; line-height: 1.7; }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .info {
+      padding: 22px;
+      border-radius: 20px;
+      background: #ffffffc9;
+      border: 1px solid white;
+      box-shadow: var(--shadow);
+    }
+
+    .info .emoji { font-size: 29px; margin-bottom: 12px; }
+    .info h3 { margin-bottom: 8px; }
+    .info p { color: var(--muted); line-height: 1.7; font-size: 14px; }
+
+    footer {
+      background: #123524;
+      color: #e5f5e9;
+      padding: 30px 22px;
+      text-align: center;
+      line-height: 1.9;
+    }
+
+    footer a { color: #86efac; }
+
+    @media (max-width: 760px) {
+      .hero { grid-template-columns: 1fr; padding-top: 35px; }
+      .hero-art { min-height: 170px; }
+      .hero-art div { font-size: 75px; }
+      .dashboard, .info-grid { grid-template-columns: 1fr; }
+      .card { padding: 20px; }
+      .nav { padding: 13px 16px; }
+      .logo { font-size: 22px; }
+      .language { min-width: 125px; max-width: 160px; }
+    }
+
+    @media (max-width: 380px) {
+      .grid-two { grid-template-columns: 1fr; }
+      .nav { flex-wrap: wrap; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="nav">
+      <div class="logo" aria-label="KisanMitra">🌱 Kisan<span>Mitra</span></div>
+      <select id="language" class="language" aria-label="Choose language">
+        <option value="en">🇬🇧 English</option>
+        <option value="te">🇮🇳 తెలుగు</option>
+        <option value="hi">🇮🇳 हिन्दी</option>
+        <option value="mr">🇮🇳 मराठी</option>
+        <option value="bn">🇮🇳 বাংলা</option>
+        <option value="ta">🇮🇳 தமிழ்</option>
+        <option value="ml">🇮🇳 മലയാളം</option>
+      </select>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow" data-i="eyebrow">🌿 SMART FARMING MADE SIMPLE</div>
+      <h1 data-i="title">Grow better.<br><span>Farm smarter.</span></h1>
+      <p data-i="intro">Simple farming guidance for every farmer. Explore crop water requirements, irrigation estimates and responsible pest management in your own language.</p>
+    </div>
+    <div class="hero-art" aria-label="Plant illustration"><div>🌾🌱</div></div>
+  </section>
+
+  <main>
+    <div class="section-title">
+      <h2 data-i="tools">Your farming assistant</h2>
+      <p data-i="subtitle">Choose your crop to get started. No account required.</p>
+    </div>
+
+    <div class="dashboard">
+      <section class="card">
+        <div class="card-heading">
+          <div class="card-icon">💧</div>
+          <div>
+            <h3 data-i="waterTitle">Crop water planner</h3>
+            <p data-i="waterSub">Estimate seasonal irrigation needs</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="crop" data-i="cropLabel">Select your crop</label>
+          <select id="crop">
+            <option value="rice" data-i="rice">Rice / Paddy</option>
+            <option value="wheat" data-i="wheat">Wheat</option>
+            <option value="maize" data-i="maize">Maize</option>
+            <option value="groundnut" data-i="groundnut">Groundnut</option>
+            <option value="mustard" data-i="mustard">Mustard</option>
+            <option value="okra" data-i="okra">Okra / Lady's finger</option>
+            <option value="onion" data-i="onion">Onion</option>
+            <option value="potato" data-i="potato">Potato</option>
+          </select>
+        </div>
+
+        <div class="grid-two">
+          <div class="field">
+            <label for="area" data-i="areaLabel">Farm area (acres)</label>
+            <input type="number" id="area" min="0.01" max="100000" step="any" value="1">
+          </div>
+          <div class="field">
+            <label for="method" data-i="methodLabel">Irrigation method</label>
+            <select id="method">
+              <option value="surface" data-i="surface">Surface / flood</option>
+              <option value="drip" data-i="drip">Drip irrigation</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn" id="calculate" data-i="calculate">Calculate water estimate</button>
+        <div id="waterResult" class="result" aria-live="polite" hidden></div>
+        <p class="small" style="margin-top:14px" data-i="waterNote">These figures are seasonal reference estimates, not daily watering instructions. Actual needs depend on weather, soil, crop stage and effective rainfall.</p>
+      </section>
+
+      <section class="card">
+        <div class="card-heading">
+          <div class="card-icon">🍃</div>
+          <div>
+            <h3 data-i="pestTitle">Crop pest assistant</h3>
+            <p data-i="pestSub">Identify the problem before treating it</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="pestCrop" data-i="pestCropLabel">Select affected crop</label>
+          <select id="pestCrop">
+            <option value="rice" data-i="rice">Rice / Paddy</option>
+            <option value="wheat" data-i="wheat">Wheat</option>
+            <option value="maize" data-i="maize">Maize</option>
+            <option value="groundnut" data-i="groundnut">Groundnut</option>
+            <option value="mustard" data-i="mustard">Mustard</option>
+            <option value="okra" data-i="okra">Okra / Lady's finger</option>
+            <option value="onion" data-i="onion">Onion</option>
+            <option value="potato" data-i="potato">Potato</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="symptom" data-i="symptomLabel">What do you notice?</label>
+          <select id="symptom">
+            <option value="holes" data-i="holes">Holes or chewed leaves</option>
+            <option value="yellow" data-i="yellow">Yellowing or wilting</option>
+            <option value="spots" data-i="spots">Spots or unusual patches</option>
+            <option value="insects" data-i="insects">Visible insects</option>
+            <option value="unknown" data-i="unknown">I am not sure</option>
+          </select>
+        </div>
+
+        <button class="btn" id="diagnose" data-i="diagnose">Get pest guidance</button>
+        <div id="pestResult" class="result" aria-live="polite" hidden></div>
+        <p class="small" style="margin-top:14px" data-i="pestNote">Symptoms alone cannot confirm a pest or disease. This tool does not prescribe a pesticide or chemical dose.</p>
+      </section>
+    </div>
+
+    <div class="section-title" style="margin-top:42px">
+      <h2 data-i="tipsTitle">Simple tips for healthier crops</h2>
+      <p data-i="tipsSub">Small steps can help save water and protect your farm.</p>
+    </div>
+
+    <div class="info-grid">
+      <article class="info">
+        <div class="emoji">🌧️</div>
+        <h3 data-i="tip1Title">Check rainfall</h3>
+        <p data-i="tip1">Consider recent rain and soil moisture before irrigating.</p>
+      </article>
+      <article class="info">
+        <div class="emoji">🔍</div>
+        <h3 data-i="tip2Title">Inspect your crop</h3>
+        <p data-i="tip2">Look at affected leaves and ask an agricultural expert when unsure.</p>
+      </article>
+      <article class="info">
+        <div class="emoji">🛡️</div>
+        <h3 data-i="tip3Title">Use pesticides safely</h3>
+        <p data-i="tip3">Follow the registered product label and use appropriate protective equipment.</p>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <strong>🌱 KisanMitra</strong>
+    <p data-i="footerText">Technology for better farming and a greener future.</p>
+    <p class="small" style="color:#d1fae5" data-i="footerNote">Educational prototype. Verify local recommendations with your agricultural extension officer.</p>
+  </footer>
+
+  <script>
+    const crops = {
+      rice: {
+        methods: {
+          surface: { total: [2300, 2600], irrigation: [2000, 2300], reference: "Puddled rice, surface irrigation" },
+          drip: { irrigation: [800, 1200], total: null, indicative: true, reference: "Indicative aerobic-rice drip range" }
+        }
+      },
+      wheat: {
+        methods: {
+          surface: { total: [350, 400], irrigation: [300, 350], reference: "Published wheat irrigation estimates" },
+          drip: { total: [275, 325], irrigation: [225, 275], reference: "Indicative wheat drip estimate" }
+        }
+      },
+      maize: {
+        methods: {
+          surface: { total: [550, 600], irrigation: [300, 350], reference: "Kharif maize estimates" },
+          drip: { total: [450, 470], irrigation: [240, 260], reference: "Indicative maize drip estimate" }
+        }
+      },
+      groundnut: {
+        methods: {
+          drip: { total: [380, 450], irrigation: [300, 400], reference: "Summer groundnut, drip irrigation" }
+        }
+      },
+      mustard: {
+        methods: {
+          surface: { total: [175, 225], irrigation: [125, 150], reference: "Mustard, surface irrigation" },
+          drip: { irrigation: [120, 120], total: null, reference: "Specific Indian mustard drip trial; local validation needed" }
+        }
+      },
+      okra: {
+        methods: {
+          drip: { total: [400, 450], irrigation: [375, 400], reference: "Summer okra, drip irrigation" }
+        }
+      },
+      onion: {
+        methods: {
+          drip: { total: [575, 675], irrigation: [450, 560], reference: "Onion, drip irrigation" }
+        }
+      },
+      potato: {
+        methods: {
+          drip: { total: [300, 320], irrigation: [220, 240], reference: "Potato, drip irrigation" }
+        }
+      }
+    };
+
+    const translations = {
+      en: {
+        eyebrow:"🌿 SMART FARMING MADE SIMPLE", title:'Grow better.<br><span>Farm smarter.</span>',
+        intro:"Simple farming guidance for every farmer. Explore crop water requirements, irrigation estimates and responsible pest management in your own language.",
+        tools:"Your KisanMitra farming assistant", subtitle:"Choose your crop to get started. No account required.",
+        waterTitle:"Crop water planner", waterSub:"Estimate seasonal irrigation needs",
+        cropLabel:"Select your crop", areaLabel:"Farm area (acres)", methodLabel:"Irrigation method",
+        surface:"Surface / flood", drip:"Drip irrigation", calculate:"Calculate water estimate",
+        waterNote:"These figures are seasonal reference estimates, not daily watering instructions. Actual needs depend on weather, soil, crop stage and effective rainfall.",
+        pestTitle:"Crop pest assistant", pestSub:"Identify the problem before treating it",
+        pestCropLabel:"Select affected crop", symptomLabel:"What do you notice?",
+        holes:"Holes or chewed leaves", yellow:"Yellowing or wilting", spots:"Spots or unusual patches", insects:"Visible insects", unknown:"I am not sure",
+        diagnose:"Get pest guidance", pestNote:"Symptoms alone cannot confirm a pest or disease. This tool does not prescribe a pesticide or chemical dose.",
+        tipsTitle:"Simple tips for healthier crops", tipsSub:"Small steps can help save water and protect your farm.",
+        tip1Title:"Check rainfall", tip1:"Consider recent rain and soil moisture before irrigating.",
+        tip2Title:"Inspect your crop", tip2:"Look at affected leaves and ask an agricultural expert when unsure.",
+        tip3Title:"Use pesticides safely", tip3:"Follow the registered product label and use appropriate protective equipment.",
+        footerText:"KisanMitra — technology for better farming and a greener future.",
+        footerNote:"Educational prototype. Verify local recommendations with your agricultural extension officer.",
+        rice:"Rice / Paddy", wheat:"Wheat", maize:"Maize", groundnut:"Groundnut", mustard:"Mustard", okra:"Okra / Lady's finger", onion:"Onion", potato:"Potato",
+        seasonal:"Seasonal estimate", irrigation:"Estimated irrigation water", total:"Total crop water reference", liters:"litres", cubic:"cubic metres",
+        methodMissing:"This method has no configured reference for the selected crop. The displayed method is the available reference method.",
+        recommended:"Reference method", reference:"Reference", disclaimer:"This is not a daily schedule. Rainfall, soil, local climate, crop stage and irrigation efficiency can change the actual requirement.",
+        invalid:"Enter a farm area greater than zero and no more than 100,000 acres.",
+        pestHeading:"Crop guidance", pestHoles:"Chewed leaves may indicate feeding insects, but other causes are possible. Inspect both sides of leaves.",
+        pestYellow:"Yellowing or wilting can be caused by water stress, nutrient problems, root damage or disease.",
+        pestSpots:"Spots may be associated with fungal or bacterial diseases, insects or other stress. Avoid spraying until the cause has been identified.",
+        pestInsects:"Note the insect's colour, shape and location. Take a clear photo and ask your local agricultural extension officer to identify it.",
+        pestUnknown:"Take clear photos of the plant and affected area. Seek local expert identification before choosing a treatment.",
+        safe:"Do not select a pesticide based on symptoms alone. Use only a product registered for the identified crop and pest in your region. Follow its label and safety instructions.",
+        commonPests:"Common pests and diseases", prevention:"Prevention and care",
+        ricePests:"Stem borers, leaf folders and brown planthoppers.",
+        riceCare:"Inspect stems and folded leaves. Maintain suitable spacing, avoid excessive nitrogen fertilizer, and conserve beneficial insects.",
+        wheatPests:"Aphids, termites and rust diseases.",
+        wheatCare:"Inspect leaves and stems, use healthy seed, and follow local disease-management recommendations.",
+        maizePests:"Fall armyworm, stem borers and downy mildew.",
+        maizeCare:"Inspect the central whorl for caterpillars and fresh feeding damage. Seek local advice if symptoms persist.",
+        groundnutPests:"Leaf miners, tobacco caterpillars and leaf spot diseases.",
+        groundnutCare:"Inspect leaves for mines, feeding damage and spots. Rotate crops and follow local disease-management advice.",
+        mustardPests:"Mustard aphids, painted bugs and Alternaria leaf blight.",
+        mustardCare:"Inspect shoots and leaf undersides. Monitor aphids and avoid unnecessary broad-spectrum spraying.",
+        okraPests:"Shoot and fruit borers, whiteflies and yellow vein mosaic disease.",
+        okraCare:"Inspect shoots and fruits. Monitor whiteflies, which can spread viral disease.",
+        onionPests:"Thrips, purple blotch and basal rot.",
+        onionCare:"Inspect leaves for thrips and lesions. Maintain suitable drainage.",
+        potatoPests:"Potato tuber moth, aphids and late blight.",
+        potatoCare:"Inspect leaves and tubers, use healthy seed tubers, and follow local disease-management guidance.",
+        officialInfo:"Official Indian pesticide information (CIBRC)"
+      },
+
+      te: {
+        eyebrow:"🌿 సులభమైన స్మార్ట్ వ్యవసాయం", title:'మంచి పంట.<br><span>తెలివైన సాగు.</span>',
+        intro:"రైతులందరికీ సరళమైన వ్యవసాయ సమాచారం. మీ భాషలో పంట నీటి అవసరాలు, నీటిపారుదల అంచనాలు, చీడపీడల నిర్వహణ తెలుసుకోండి.",
+        tools:"మీ కిసాన్‌మిత్ర వ్యవసాయ సహాయకుడు", subtitle:"పంటను ఎంచుకోండి. లాగిన్ అవసరం లేదు.",
+        waterTitle:"పంట నీటి ప్రణాళిక", waterSub:"సీజన్ నీటి అవసరాన్ని అంచనా వేయండి",
+        cropLabel:"పంటను ఎంచుకోండి", areaLabel:"పొలం విస్తీర్ణం (ఎకరాలు)", methodLabel:"నీటిపారుదల పద్ధతి",
+        surface:"కాలువ / ముంపు పద్ధతి", drip:"బిందు సేద్యం", calculate:"నీటి అంచనా లెక్కించండి",
+        waterNote:"ఇవి సీజన్ అంచనాలు మాత్రమే; రోజువారీ సూచనలు కావు. వాస్తవ అవసరం వాతావరణం, నేల, పంట దశ, వర్షపాతంపై ఆధారపడి ఉంటుంది.",
+        pestTitle:"పంట చీడపీడల సహాయకుడు", pestSub:"చికిత్సకు ముందు సమస్యను గుర్తించండి",
+        pestCropLabel:"ప్రభావిత పంట", symptomLabel:"మీరు ఏమి గమనించారు?",
+        holes:"ఆకుల్లో రంధ్రాలు", yellow:"ఆకులు పసుపు రంగులోకి మారడం లేదా వాడిపోవడం", spots:"ఆకులపై మచ్చలు", insects:"కనిపించే పురుగులు", unknown:"నాకు తెలియదు",
+        diagnose:"సలహా పొందండి", pestNote:"లక్షణాలను బట్టి మాత్రమే చీడపీడను నిర్ధారించలేం. ఈ సాధనం మందు లేదా మోతాదును సూచించదు.",
+        tipsTitle:"ఆరోగ్యకరమైన పంటకు చిట్కాలు", tipsSub:"చిన్న జాగ్రత్తలు నీటిని ఆదా చేసి పంటను కాపాడతాయి.",
+        tip1Title:"వర్షపాతాన్ని గమనించండి", tip1:"నీరు పెట్టే ముందు వర్షం, నేలలో తేమను పరిశీలించండి.",
+        tip2Title:"పంటను పరిశీలించండి", tip2:"ఆకులను పరిశీలించి సందేహం ఉంటే వ్యవసాయ నిపుణుడిని సంప్రదించండి.",
+        tip3Title:"పురుగుమందులను సురక్షితంగా వాడండి", tip3:"లేబుల్ సూచనలు, రక్షణ పరికరాలను పాటించండి.",
+        footerText:"కిసాన్‌మిత్ర — మెరుగైన వ్యవసాయం కోసం సాంకేతికత.",
+        footerNote:"విద్యాపరమైన నమూనా. స్థానిక వ్యవసాయ అధికారితో సలహాలను నిర్ధారించుకోండి.",
+        rice:"వరి", wheat:"గోధుమ", maize:"మొక్కజొన్న", groundnut:"వేరుశనగ", mustard:"ఆవాలు", okra:"బెండకాయ", onion:"ఉల్లిపాయ", potato:"బంగాళాదుంప",
+        seasonal:"సీజన్ అంచనా", irrigation:"అంచనా నీటిపారుదల నీరు", total:"మొత్తం పంట నీటి అంచనా", liters:"లీటర్లు", cubic:"ఘన మీటర్లు",
+        methodMissing:"ఈ పంటకు ఈ పద్ధతిలో సమాచారం లేదు. చూపించిన పద్ధతి అందుబాటులో ఉన్న సూచన పద్ధతి.",
+        recommended:"సూచన పద్ధతి", reference:"ఆధారం", disclaimer:"ఇది రోజువారీ షెడ్యూల్ కాదు. వర్షం, నేల, వాతావరణం, పంట దశ ఆధారంగా అవసరం మారుతుంది.",
+        invalid:"సున్నా కంటే ఎక్కువ, 100000 ఎకరాలకు మించని విస్తీర్ణం నమోదు చేయండి.",
+        pestHeading:"పంటకు సంబంధించిన సూచనలు", pestHoles:"ఆకులను తినే పురుగులు కారణం కావచ్చు; ఇతర కారణాలూ ఉండవచ్చు. ఆకుల రెండు వైపులా పరిశీలించండి.",
+        pestYellow:"నీటి కొరత, పోషక లోపం, వేరు సమస్యలు లేదా వ్యాధుల వల్ల ఆకులు పసుపు రంగులోకి మారవచ్చు.",
+        pestSpots:"మచ్చలు వ్యాధులు, పురుగులు లేదా ఇతర సమస్యల వల్ల రావచ్చు. కారణం గుర్తించే వరకు పిచికారీ చేయవద్దు.",
+        pestInsects:"పురుగు రంగు, ఆకారం, ఉన్న ప్రదేశాన్ని గమనించి ఫోటో తీసి వ్యవసాయ అధికారిని సంప్రదించండి.",
+        pestUnknown:"మొక్క, ప్రభావిత భాగాల ఫోటోలు తీసి స్థానిక వ్యవసాయ అధికారిని సంప్రదించండి.",
+        safe:"లక్షణాలను బట్టి మాత్రమే పురుగుమందును ఎంచుకోవద్దు. గుర్తించిన పంట, పురుగుకు అనుమతించిన మందునే లేబుల్ ప్రకారం వాడండి.",
+        commonPests:"సాధారణ చీడపీడలు, వ్యాధులు", prevention:"నివారణ మరియు సంరక్షణ",
+        ricePests:"కాండం తొలిచే పురుగులు, ఆకు మడత పురుగులు, బ్రౌన్ ప్లాంట్ హాపర్లు.",
+        riceCare:"కాండాలు, మడతపడ్డ ఆకులను పరిశీలించండి. అధిక నత్రజని ఎరువును నివారించి మేలు చేసే పురుగులను కాపాడండి.",
+        wheatPests:"పేను పురుగులు, చెదపురుగులు, తుప్పు వ్యాధులు.",
+        wheatCare:"ఆకులు, కాండాలను పరిశీలించి ఆరోగ్యకరమైన విత్తనాలు వాడండి.",
+        maizePests:"ఫాల్ ఆర్మీవార్మ్, కాండం తొలిచే పురుగులు, డౌనీ మిల్డ్యూ.",
+        maizeCare:"ఆకుల మధ్య భాగంలో గొంగళి పురుగులు, తాజా నష్టాన్ని పరిశీలించండి.",
+        groundnutPests:"ఆకు గనుల పురుగులు, గొంగళి పురుగులు, ఆకు మచ్చ వ్యాధులు.",
+        groundnutCare:"ఆకులను పరిశీలించి పంట మార్పిడి, స్థానిక వ్యాధి నిర్వహణ సూచనలు పాటించండి.",
+        mustardPests:"ఆవాల పేను పురుగులు, పెయింటెడ్ బగ్స్, ఆకు మచ్చ వ్యాధి.",
+        mustardCare:"చిగుళ్లు, ఆకుల అడుగు భాగాలను పరిశీలించండి.",
+        okraPests:"కొమ్మ, కాయ తొలిచే పురుగులు, తెల్లదోమలు, పసుపు నరాల మొజాయిక్ వ్యాధి.",
+        okraCare:"కొమ్మలు, కాయలను పరిశీలించి వైరస్ వ్యాప్తి చేసే తెల్లదోమలను గమనించండి.",
+        onionPests:"త్రిప్స్, పర్పుల్ బ్లాచ్, కాండం అడుగు కుళ్లు.",
+        onionCare:"ఆకులను పరిశీలించి సరైన నీటి పారుదల ఉండేలా చూడండి.",
+        potatoPests:"బంగాళాదుంప కాయ పురుగు, పేను పురుగులు, లేట్ బ్లైట్.",
+        potatoCare:"ఆకులు, దుంపలను పరిశీలించి ఆరోగ్యకరమైన విత్తన దుంపలు వాడండి.",
+        officialInfo:"భారత అధికారిక పురుగుమందుల సమాచారం"
+      },
+
+      hi: {
+        eyebrow:"🌿 आसान स्मार्ट खेती", title:'बेहतर फसल।<br><span>समझदारी से खेती।</span>',
+        intro:"किसानों के लिए आसान जानकारी। अपनी भाषा में फसल की पानी की जरूरत, सिंचाई का अनुमान और कीट प्रबंधन जानें।",
+        tools:"आपका किसानमित्र कृषि सहायक", subtitle:"फसल चुनें। लॉगिन की जरूरत नहीं।",
+        waterTitle:"फसल जल योजनाकार", waterSub:"मौसमी सिंचाई की जरूरत का अनुमान",
+        cropLabel:"फसल चुनें", areaLabel:"खेत का क्षेत्रफल (एकड़)", methodLabel:"सिंचाई का तरीका",
+        surface:"सतही / बाढ़ सिंचाई", drip:"ड्रिप सिंचाई", calculate:"पानी का अनुमान निकालें",
+        waterNote:"ये मौसमी अनुमान हैं, रोजाना पानी देने के निर्देश नहीं। वास्तविक जरूरत मौसम, मिट्टी, फसल की अवस्था और वर्षा पर निर्भर करती है।",
+        pestTitle:"फसल कीट सहायक", pestSub:"उपचार से पहले समस्या पहचानें",
+        pestCropLabel:"प्रभावित फसल चुनें", symptomLabel:"आपको क्या दिखाई देता है?",
+        holes:"पत्तियों में छेद", yellow:"पीलापन या मुरझाना", spots:"धब्बे", insects:"दिखाई देने वाले कीड़े", unknown:"पता नहीं",
+        diagnose:"कीट संबंधी सलाह लें", pestNote:"केवल लक्षणों से कीट या बीमारी की पुष्टि नहीं होती। यह उपकरण कीटनाशक या उसकी मात्रा निर्धारित नहीं करता।",
+        tipsTitle:"स्वस्थ फसल के लिए सुझाव", tipsSub:"छोटे कदम पानी बचाते हैं और फसल की रक्षा करते हैं।",
+        tip1Title:"बारिश देखें", tip1:"सिंचाई से पहले बारिश और मिट्टी की नमी देखें.",
+        tip2Title:"फसल की जांच करें", tip2:"पत्तियां देखें और संदेह होने पर कृषि विशेषज्ञ से पूछें।",
+        tip3Title:"कीटनाशक सुरक्षित तरीके से उपयोग करें", tip3:"उत्पाद के लेबल और सुरक्षा उपकरणों के निर्देशों का पालन करें।",
+        footerText:"किसानमित्र — बेहतर खेती के लिए तकनीक।",
+        footerNote:"शैक्षिक नमूना। स्थानीय कृषि अधिकारी से सलाह की पुष्टि करें।",
+        rice:"धान", wheat:"गेहूं", maize:"मक्का", groundnut:"मूंगफली", mustard:"सरसों", okra:"भिंडी", onion:"प्याज", potato:"आलू",
+        seasonal:"मौसमी अनुमान", irrigation:"अनुमानित सिंचाई जल", total:"कुल फसल जल संदर्भ", liters:"लीटर", cubic:"घन मीटर",
+        methodMissing:"इस फसल और सिंचाई तरीके के लिए आंकड़ा उपलब्ध नहीं है। दिखाया गया तरीका उपलब्ध संदर्भ है।",
+        recommended:"संदर्भ तरीका", reference:"संदर्भ", disclaimer:"यह दैनिक समय-सारणी नहीं है। बारिश, मिट्टी, जलवायु और फसल की अवस्था से जरूरत बदलती है।",
+        invalid:"शून्य से अधिक और 100000 एकड़ तक का क्षेत्रफल दर्ज करें।",
+        pestHeading:"फसल संबंधी मार्गदर्शन", pestHoles:"पत्तियां खाने वाले कीड़े कारण हो सकते हैं। पत्तियों के दोनों ओर जांच करें।",
+        pestYellow:"पीलापन पानी की कमी, पोषक तत्वों की कमी, जड़ों की समस्या या बीमारी से हो सकता है।",
+        pestSpots:"धब्बे बीमारी, कीट या अन्य तनाव से हो सकते हैं। कारण पहचानने से पहले छिड़काव न करें।",
+        pestInsects:"कीड़े का रंग, आकार और स्थान देखें। फोटो लेकर स्थानीय कृषि अधिकारी से पहचान कराएं।",
+        pestUnknown:"पौधे की फोटो लेकर स्थानीय कृषि अधिकारी से सलाह लें।",
+        safe:"केवल लक्षणों के आधार पर कीटनाशक न चुनें। पहचाने गए कीट और फसल के लिए पंजीकृत उत्पाद ही लेबल के अनुसार उपयोग करें।",
+        commonPests:"आम कीट और रोग", prevention:"रोकथाम और देखभाल",
+        ricePests:"तना छेदक, पत्ती मोड़क और भूरा फुदका।", riceCare:"तनों और मुड़ी पत्तियों की जांच करें। अत्यधिक नाइट्रोजन से बचें और लाभकारी कीटों को सुरक्षित रखें।",
+        wheatPests:"माहू, दीमक और रतुआ रोग।", wheatCare:"पत्तियों और तनों की जांच करें तथा स्वस्थ बीज इस्तेमाल करें।",
+        maizePests:"फॉल आर्मीवर्म, तना छेदक और डाउनी मिल्ड्यू।", maizeCare:"पत्तियों के बीच के हिस्से में इल्ली और ताजा नुकसान देखें।",
+        groundnutPests:"लीफ माइनर, तंबाकू इल्ली और पत्ती धब्बा रोग।", groundnutCare:"पत्तियों की जांच करें, फसल चक्र अपनाएं और स्थानीय सलाह लें।",
+        mustardPests:"सरसों माहू, पेंटेड बग और अल्टरनेरिया पत्ती झुलसा।", mustardCare:"नई टहनियों और पत्तियों के नीचे जांच करें।",
+        okraPests:"तना और फल छेदक, सफेद मक्खी और पीला शिरा मोज़ेक रोग।", okraCare:"टहनियों और फलों की जांच करें तथा सफेद मक्खियों पर नजर रखें।",
+        onionPests:"थ्रिप्स, पर्पल ब्लॉच और बेसल रॉट।", onionCare:"पत्तियों की जांच करें और उचित जल निकासी रखें।",
+        potatoPests:"आलू कंद कीट, माहू और लेट ब्लाइट।", potatoCare:"पत्तियों और कंदों की जांच करें तथा स्वस्थ बीज कंद इस्तेमाल करें।",
+        officialInfo:"भारत की आधिकारिक कीटनाशक जानकारी"
+      },
+
+      mr: {
+        eyebrow:"🌿 सोपी स्मार्ट शेती", title:'चांगले पीक.<br><span>स्मार्ट शेती.</span>',
+        intro:"शेतकऱ्यांसाठी सोपी माहिती. आपल्या भाषेत पिकाची पाण्याची गरज, सिंचनाचा अंदाज आणि कीड व्यवस्थापन जाणून घ्या.",
+        tools:"तुमचा किसानमित्र शेती सहाय्यक", subtitle:"पीक निवडा. लॉगिनची गरज नाही.",
+        waterTitle:"पाणी नियोजन", waterSub:"हंगामी सिंचनाचा अंदाज",
+        cropLabel:"पीक निवडा", areaLabel:"शेताचे क्षेत्र (एकर)", methodLabel:"सिंचन पद्धत",
+        surface:"पृष्ठभाग / पाट सिंचन", drip:"ठिबक सिंचन", calculate:"पाण्याचा अंदाज काढा",
+        waterNote:"हे हंगामाचे अंदाज आहेत; रोजच्या पाण्याच्या सूचना नाहीत. प्रत्यक्ष गरज हवामान, माती, पिकाची अवस्था आणि पावसावर अवलंबून असते.",
+        pestTitle:"पीक कीड सहाय्यक", pestSub:"उपचारापूर्वी समस्या ओळखा",
+        pestCropLabel:"प्रभावित पीक निवडा", symptomLabel:"काय दिसत आहे?",
+        holes:"पानांना छिद्रे", yellow:"पाने पिवळी होणे किंवा कोमेजणे", spots:"डाग", insects:"दिसणारे कीटक", unknown:"माहित नाही",
+        diagnose:"कीड मार्गदर्शन मिळवा", pestNote:"फक्त लक्षणांवरून कीड किंवा रोग निश्चित होत नाही. हे साधन कीटकनाशक किंवा मात्रा ठरवत नाही.",
+        tipsTitle:"निरोगी पिकासाठी टिप्स", tipsSub:"छोट्या सवयी पाणी वाचवतात आणि पीक सुरक्षित ठेवतात.",
+        tip1Title:"पाऊस तपासा", tip1:"सिंचनापूर्वी पाऊस आणि मातीतील ओलावा तपासा.",
+        tip2Title:"पिकाची पाहणी करा", tip2:"पाने तपासा आणि शंका असल्यास कृषी तज्ज्ञांचा सल्ला घ्या.",
+        tip3Title:"कीटकनाशक सुरक्षितपणे वापरा", tip3:"उत्पादनाच्या लेबलवरील सूचना व संरक्षण साधने वापरा.",
+        footerText:"किसानमित्र — चांगल्या शेतीसाठी तंत्रज्ञान.",
+        footerNote:"शैक्षणिक नमुना. स्थानिक कृषी अधिकाऱ्यांचा सल्ला तपासा.",
+        rice:"भात", wheat:"गहू", maize:"मका", groundnut:"भुईमूग", mustard:"मोहरी", okra:"भेंडी", onion:"कांदा", potato:"बटाटा",
+        seasonal:"हंगामी अंदाज", irrigation:"अंदाजित सिंचन पाणी", total:"एकूण पिकाच्या पाण्याचा संदर्भ", liters:"लिटर", cubic:"घन मीटर",
+        methodMissing:"या पिकासाठी या सिंचन पद्धतीचा संदर्भ उपलब्ध नाही. दाखवलेली पद्धत उपलब्ध संदर्भ आहे.",
+        recommended:"संदर्भ पद्धत", reference:"संदर्भ", disclaimer:"हे दररोजचे वेळापत्रक नाही. पाऊस, माती, हवामान आणि पिकाच्या अवस्थेनुसार गरज बदलते.",
+        invalid:"शून्यापेक्षा जास्त आणि 100000 एकरांपेक्षा कमी क्षेत्रफळ भरा.",
+        pestHeading:"पिकासाठी मार्गदर्शन", pestHoles:"पाने खाणारे कीटक कारण असू शकतात. पानांच्या दोन्ही बाजू तपासा.",
+        pestYellow:"पाणी, पोषकद्रव्यांची कमतरता, मुळांची समस्या किंवा रोगामुळे पाने पिवळी होऊ शकतात.",
+        pestSpots:"डाग रोग, कीटक किंवा इतर ताणामुळे असू शकतात. कारण ओळखण्यापूर्वी फवारणी करू नका.",
+        pestInsects:"कीटकाचा रंग, आकार व स्थान नोंदवा आणि कृषी अधिकाऱ्याकडून ओळख करून घ्या.",
+        pestUnknown:"झाडाचे फोटो घेऊन स्थानिक कृषी अधिकाऱ्यांचा सल्ला घ्या.",
+        safe:"फक्त लक्षणांवरून कीटकनाशक निवडू नका. संबंधित पीक आणि किडीसाठी नोंदणीकृत उत्पादन लेबलानुसार वापरा.",
+        commonPests:"सामान्य कीड आणि रोग", prevention:"प्रतिबंध आणि काळजी",
+        ricePests:"खोडकिडा, पाने गुंडाळणारी अळी आणि तपकिरी तुडतुडे.", riceCare:"खोडे आणि गुंडाळलेली पाने तपासा. जास्त नत्र खत टाळा.",
+        wheatPests:"मावा, वाळवी आणि तांबेरा रोग.", wheatCare:"पाने व खोड तपासा आणि निरोगी बियाणे वापरा.",
+        maizePests:"फॉल आर्मीवर्म, खोडकिडा आणि डाउनी मिल्ड्यू.", maizeCare:"पानांच्या मध्यभागी अळ्या आणि नुकसान तपासा.",
+        groundnutPests:"लीफ मायनर, तंबाखू अळी आणि पानावरील ठिपके.", groundnutCare:"पाने तपासा, पीक फेरपालट करा आणि स्थानिक सल्ला घ्या.",
+        mustardPests:"मोहरीवरील मावा, पेंटेड बग आणि अल्टरनेरिया रोग.", mustardCare:"नवीन फुटवे आणि पानांच्या खालच्या बाजू तपासा.",
+        okraPests:"खोड व फळ पोखरणारी अळी, पांढरी माशी आणि पिवळ्या शिरांचा विषाणू.", okraCare:"फळे आणि खोड तपासा; पांढऱ्या माशीवर लक्ष ठेवा.",
+        onionPests:"थ्रिप्स, पर्पल ब्लॉच आणि बेसल रॉट.", onionCare:"पाने तपासा आणि योग्य निचरा ठेवा.",
+        potatoPests:"बटाटा कंद पतंग, मावा आणि लेट ब्लाइट.", potatoCare:"पाने व कंद तपासा आणि निरोगी बियाणे कंद वापरा.",
+        officialInfo:"भारताची अधिकृत कीटकनाशक माहिती"
+      },
+
+      bn: {
+        eyebrow:"🌿 সহজ স্মার্ট কৃষি", title:'ভালো ফসল।<br><span>বুদ্ধিমান চাষ।</span>',
+        intro:"কৃষকদের জন্য সহজ তথ্য। নিজের ভাষায় ফসলের জলের চাহিদা, সেচের অনুমান এবং পোকামাকড় ব্যবস্থাপনা জানুন।",
+        tools:"আপনার কিষাণমিত্র কৃষি সহায়ক", subtitle:"ফসল বেছে নিন। লগইন লাগবে না।",
+        waterTitle:"ফসলের জল পরিকল্পনা", waterSub:"মৌসুমি সেচের চাহিদার অনুমান",
+        cropLabel:"ফসল বেছে নিন", areaLabel:"জমির পরিমাণ (একর)", methodLabel:"সেচের পদ্ধতি",
+        surface:"জমির উপরিভাগ / প্লাবন", drip:"ড্রিপ সেচ", calculate:"জলের হিসাব করুন",
+        waterNote:"এগুলি মৌসুমি অনুমান, প্রতিদিন জল দেওয়ার নির্দেশ নয়। প্রকৃত চাহিদা আবহাওয়া, মাটি, ফসলের পর্যায় ও বৃষ্টির উপর নির্ভর করে।",
+        pestTitle:"ফসলের পোকা সহায়ক", pestSub:"চিকিৎসার আগে সমস্যা শনাক্ত করুন",
+        pestCropLabel:"ক্ষতিগ্রস্ত ফসল", symptomLabel:"কী দেখতে পাচ্ছেন?",
+        holes:"পাতায় ছিদ্র", yellow:"পাতা হলুদ বা শুকিয়ে যাওয়া", spots:"দাগ", insects:"দেখা যাচ্ছে এমন পোকা", unknown:"নিশ্চিত নই",
+        diagnose:"পোকার পরামর্শ নিন", pestNote:"শুধু লক্ষণ দেখে পোকা বা রোগ নিশ্চিত করা যায় না। এই সরঞ্জাম কীটনাশক বা মাত্রা নির্ধারণ করে না।",
+        tipsTitle:"স্বাস্থ্যকর ফসলের টিপস", tipsSub:"ছোট পদক্ষেপ জল বাঁচায় এবং ফসল রক্ষা করে।",
+        tip1Title:"বৃষ্টি দেখুন", tip1:"সেচের আগে সাম্প্রতিক বৃষ্টি ও মাটির আর্দ্রতা দেখুন।",
+        tip2Title:"ফসল পরীক্ষা করুন", tip2:"পাতা পরীক্ষা করুন এবং সন্দেহ হলে কৃষি বিশেষজ্ঞের পরামর্শ নিন।",
+        tip3Title:"নিরাপদে কীটনাশক ব্যবহার করুন", tip3:"পণ্যের লেবেল ও সুরক্ষা সরঞ্জামের নির্দেশ মানুন।",
+        footerText:"কিষাণমিত্র — উন্নত কৃষির জন্য প্রযুক্তি।",
+        footerNote:"শিক্ষামূলক নমুনা। স্থানীয় কৃষি আধিকারিকের পরামর্শ যাচাই করুন।",
+        rice:"ধান", wheat:"গম", maize:"ভুট্টা", groundnut:"চিনাবাদাম", mustard:"সরিষা", okra:"ঢেঁড়স", onion:"পেঁয়াজ", potato:"আলু",
+        seasonal:"মৌসুমি অনুমান", irrigation:"আনুমানিক সেচের জল", total:"মোট ফসলের জলের তথ্য", liters:"লিটার", cubic:"ঘনমিটার",
+        methodMissing:"এই ফসলের জন্য এই পদ্ধতির তথ্য নেই। দেখানো পদ্ধতিটি উপলভ্য তথ্যের ভিত্তিতে।",
+        recommended:"উপলভ্য পদ্ধতি", reference:"তথ্যসূত্র", disclaimer:"এটি দৈনিক সময়সূচি নয়। বৃষ্টি, মাটি, আবহাওয়া ও ফসলের পর্যায়ে চাহিদা বদলায়।",
+        invalid:"শূন্যের বেশি এবং 100000 একরের মধ্যে জমির পরিমাণ লিখুন।",
+        pestHeading:"ফসলের নির্দেশনা", pestHoles:"পাতা খাওয়া পোকা কারণ হতে পারে। পাতার দুই দিক পরীক্ষা করুন।",
+        pestYellow:"জলের অভাব, পুষ্টির সমস্যা, শিকড়ের ক্ষতি বা রোগে পাতা হলুদ হতে পারে।",
+        pestSpots:"দাগ রোগ, পোকা বা অন্য সমস্যার কারণে হতে পারে। কারণ শনাক্ত না করে স্প্রে করবেন না।",
+        pestInsects:"পোকার রং, আকৃতি ও অবস্থান লক্ষ্য করে ছবি তুলুন এবং কৃষি আধিকারিককে দেখান।",
+        pestUnknown:"গাছের ছবি তুলে স্থানীয় কৃষি আধিকারিকের পরামর্শ নিন।",
+        safe:"শুধু লক্ষণ দেখে কীটনাশক বেছে নেবেন না। চিহ্নিত ফসল ও পোকার জন্য নিবন্ধিত পণ্য লেবেল অনুযায়ী ব্যবহার করুন।",
+        commonPests:"সাধারণ পোকা ও রোগ", prevention:"প্রতিরোধ ও যত্ন",
+        ricePests:"কাণ্ড ছিদ্রকারী পোকা, পাতা মোড়ানো পোকা ও বাদামি প্ল্যান্টহপার।", riceCare:"কাণ্ড ও ভাঁজ হওয়া পাতা পরীক্ষা করুন। অতিরিক্ত নাইট্রোজেন সার এড়িয়ে চলুন।",
+        wheatPests:"এফিড, উইপোকা ও মরিচা রোগ।", wheatCare:"পাতা ও কাণ্ড পরীক্ষা করুন এবং সুস্থ বীজ ব্যবহার করুন।",
+        maizePests:"ফল আর্মিওয়ার্ম, কাণ্ড ছিদ্রকারী পোকা ও ডাউনি মিলডিউ।", maizeCare:"পাতার মাঝখানে শুঁয়োপোকা ও নতুন ক্ষতি পরীক্ষা করুন।",
+        groundnutPests:"লিফ মাইনার, তামাকের শুঁয়োপোকা ও পাতার দাগ রোগ।", groundnutCare:"পাতা পরীক্ষা করুন, ফসল পর্যায়ক্রমে চাষ করুন এবং স্থানীয় পরামর্শ নিন।",
+        mustardPests:"সরিষার এফিড, পেইন্টেড বাগ ও পাতার ঝলসানো রোগ।", mustardCare:"নতুন ডাল ও পাতার নিচের অংশ পরীক্ষা করুন।",
+        okraPests:"কাণ্ড ও ফল ছিদ্রকারী পোকা, সাদা মাছি এবং হলুদ শিরা মোজাইক রোগ।", okraCare:"ডাল ও ফল পরীক্ষা করুন এবং সাদা মাছির দিকে নজর রাখুন।",
+        onionPests:"থ্রিপস, পার্পল ব্লচ ও গোড়া পচা রোগ।", onionCare:"পাতা পরীক্ষা করুন এবং জমিতে জল নিষ্কাশন ঠিক রাখুন।",
+        potatoPests:"আলুর কন্দের পোকা, এফিড ও লেট ব্লাইট।", potatoCare:"পাতা ও কন্দ পরীক্ষা করুন এবং সুস্থ বীজ কন্দ ব্যবহার করুন।",
+        officialInfo:"ভারতের সরকারি কীটনাশক তথ্য"
+      },
+
+      ta: {
+        eyebrow:"🌿 எளிய நவீன விவசாயம்", title:'சிறந்த விளைச்சல்.<br><span>சிறந்த விவசாயம்.</span>',
+        intro:"விவசாயிகளுக்கான எளிய தகவல்கள். உங்கள் மொழியில் பயிரின் நீர்த் தேவை, பாசன மதிப்பீடு மற்றும் பூச்சி மேலாண்மையை அறியுங்கள்.",
+        tools:"உங்கள் கிசான்மித்ரா விவசாய உதவியாளர்", subtitle:"பயிரைத் தேர்ந்தெடுக்கவும். உள்நுழைவு தேவையில்லை.",
+        waterTitle:"பயிர் நீர் திட்டம்", waterSub:"பருவகால பாசனத் தேவையை மதிப்பிடுங்கள்",
+        cropLabel:"பயிரைத் தேர்ந்தெடுக்கவும்", areaLabel:"நிலப் பரப்பு (ஏக்கர்)", methodLabel:"பாசன முறை",
+        surface:"மேற்பரப்பு / வெள்ளப் பாசனம்", drip:"சொட்டு நீர்ப்பாசனம்", calculate:"நீர் மதிப்பீட்டைக் கணக்கிடு",
+        waterNote:"இவை பருவகால மதிப்பீடுகள்; தினசரி நீர்ப்பாசன வழிமுறைகள் அல்ல. உண்மையான தேவை வானிலை, மண், பயிர் நிலை மற்றும் மழையைப் பொறுத்தது.",
+        pestTitle:"பயிர் பூச்சி உதவியாளர்", pestSub:"சிகிச்சைக்கு முன் பிரச்சினையை அடையாளம் காணுங்கள்",
+        pestCropLabel:"பாதிக்கப்பட்ட பயிர்", symptomLabel:"என்ன தெரிகிறது?",
+        holes:"இலைகளில் துளைகள்", yellow:"மஞ்சள் நிறம் அல்லது வாடுதல்", spots:"புள்ளிகள்", insects:"கண்ணுக்குத் தெரியும் பூச்சிகள்", unknown:"தெரியவில்லை",
+        diagnose:"பூச்சி வழிகாட்டுதலைப் பெறுங்கள்", pestNote:"அறிகுறிகளை மட்டும் வைத்து பூச்சி அல்லது நோயை உறுதிப்படுத்த முடியாது. இந்தக் கருவி பூச்சிக்கொல்லி அல்லது அளவைப் பரிந்துரைக்காது.",
+        tipsTitle:"ஆரோக்கியமான பயிருக்கான குறிப்புகள்", tipsSub:"சிறிய செயல்கள் நீரைச் சேமித்து பயிரைப் பாதுகாக்கும்.",
+        tip1Title:"மழையைச் சரிபார்க்கவும்", tip1:"பாசனத்திற்கு முன் மழையையும் மண்ணின் ஈரப்பதத்தையும் பாருங்கள்.",
+        tip2Title:"பயிரை ஆய்வு செய்யுங்கள்", tip2:"இலைகளைப் பார்த்து சந்தேகம் இருந்தால் வேளாண் நிபுணரிடம் கேளுங்கள்.",
+        tip3Title:"பூச்சிக்கொல்லிகளைப் பாதுகாப்பாகப் பயன்படுத்துங்கள்", tip3:"பொருளின் லேபிள் மற்றும் பாதுகாப்பு உபகரண வழிமுறைகளைப் பின்பற்றுங்கள்.",
+        footerText:"கிசான்மித்ரா — சிறந்த விவசாயத்திற்கான தொழில்நுட்பம்.",
+        footerNote:"கல்வி நோக்கிலான மாதிரி. உள்ளூர் வேளாண் அலுவலரிடம் ஆலோசனையை உறுதிப்படுத்துங்கள்.",
+        rice:"நெல்", wheat:"கோதுமை", maize:"மக்காச்சோளம்", groundnut:"நிலக்கடலை", mustard:"கடுகு", okra:"வெண்டைக்காய்", onion:"வெங்காயம்", potato:"உருளைக்கிழங்கு",
+        seasonal:"பருவகால மதிப்பீடு", irrigation:"மதிப்பிடப்பட்ட பாசன நீர்", total:"மொத்த பயிர் நீர் குறிப்பு", liters:"லிட்டர்", cubic:"கன மீட்டர்",
+        methodMissing:"இந்தப் பயிருக்கு இந்த முறையில் குறிப்பு இல்லை. காட்டப்படும் முறை கிடைக்கக்கூடிய குறிப்பு முறையாகும்.",
+        recommended:"குறிப்பு முறை", reference:"ஆதாரம்", disclaimer:"இது தினசரி அட்டவணை அல்ல. மழை, மண், காலநிலை மற்றும் பயிர் நிலையைப் பொறுத்து தேவை மாறும்.",
+        invalid:"பூஜ்ஜியத்தை விட அதிகமான, 100000 ஏக்கருக்கு மிகாத நிலப்பரப்பை உள்ளிடவும்.",
+        pestHeading:"பயிர் வழிகாட்டுதல்", pestHoles:"இலைகளை உண்ணும் பூச்சிகள் காரணமாக இருக்கலாம். இலைகளின் இருபுறமும் பாருங்கள்.",
+        pestYellow:"நீர்ப்பற்றாக்குறை, ஊட்டச்சத்து குறைபாடு, வேர் சேதம் அல்லது நோய் காரணமாக இலைகள் மஞ்சளாகலாம்.",
+        pestSpots:"புள்ளிகள் நோய், பூச்சிகள் அல்லது பிற பாதிப்புகளால் ஏற்படலாம். காரணத்தை அறியாமல் தெளிக்க வேண்டாம்.",
+        pestInsects:"பூச்சியின் நிறம், வடிவம் மற்றும் இருப்பிடத்தைப் பதிவு செய்து வேளாண் அலுவலரிடம் காட்டுங்கள்.",
+        pestUnknown:"பயிரின் படங்களை எடுத்து உள்ளூர் வேளாண் அலுவலரிடம் ஆலோசனை பெறுங்கள்.",
+        safe:"அறிகுறிகளை மட்டும் வைத்து பூச்சிக்கொல்லியைத் தேர்ந்தெடுக்க வேண்டாம். பயிருக்கும் பூச்சிக்கும் பதிவு செய்யப்பட்ட பொருளை லேபிள்படி பயன்படுத்துங்கள்.",
+        commonPests:"பொதுவான பூச்சிகள் மற்றும் நோய்கள்", prevention:"தடுப்பு மற்றும் பராமரிப்பு",
+        ricePests:"தண்டு துளைப்பான், இலை மடிப்பான் மற்றும் பழுப்பு தாவரத் துள்ளி.", riceCare:"தண்டுகள் மற்றும் மடிந்த இலைகளைப் பாருங்கள். அதிக நைட்ரஜன் உரத்தைத் தவிர்க்கவும்.",
+        wheatPests:"அசுவினி, கரையான் மற்றும் துரு நோய்.", wheatCare:"இலைகள், தண்டுகளைப் பரிசோதித்து நல்ல விதைகளைப் பயன்படுத்துங்கள்.",
+        maizePests:"ஃபால் ஆர்மிவோர்ம், தண்டு துளைப்பான் மற்றும் டவுனி மில்டியூ.", maizeCare:"இலைகளின் நடுப்பகுதியில் புழுக்களையும் புதிய சேதத்தையும் பாருங்கள்.",
+        groundnutPests:"இலை சுரங்கப்புழு, புகையிலைப் புழு மற்றும் இலைப்புள்ளி நோய்.", groundnutCare:"இலைகளைப் பரிசோதித்து பயிர் சுழற்சி மற்றும் உள்ளூர் ஆலோசனையைப் பின்பற்றுங்கள்.",
+        mustardPests:"கடுகு அசுவினி, பெயிண்டட் பக் மற்றும் இலைக் கருகல் நோய்.", mustardCare:"புதிய தளிர்களையும் இலைகளின் அடிப்பகுதியையும் பாருங்கள்.",
+        okraPests:"தண்டு மற்றும் காய்த் துளைப்பான், வெள்ளை ஈ மற்றும் மஞ்சள் நரம்பு மொசைக் நோய்.", okraCare:"தளிர்கள், காய்களைப் பரிசோதித்து வெள்ளை ஈயைக் கண்காணிக்கவும்.",
+        onionPests:"திரிப்ஸ், பர்பிள் பிளாட்ச் மற்றும் அடிப்பகுதி அழுகல்.", onionCare:"இலைகளைப் பரிசோதித்து சரியான வடிகாலைப் பராமரிக்கவும்.",
+        potatoPests:"உருளைக்கிழங்கு கிழங்கு அந்துப்பூச்சி, அசுவினி மற்றும் லேட் பிளைட்.", potatoCare:"இலைகள், கிழங்குகளைப் பரிசோதித்து நல்ல விதைக் கிழங்குகளைப் பயன்படுத்துங்கள்.",
+        officialInfo:"இந்திய அதிகாரப்பூர்வ பூச்சிக்கொல்லி தகவல்"
+      },
+
+      ml: {
+        eyebrow:"🌿 ലളിതമായ സ്മാർട്ട് കൃഷി", title:'നല്ല വിളവ്.<br><span>മികച്ച കൃഷി.</span>',
+        intro:"കർഷകർക്കുള്ള ലളിതമായ വിവരങ്ങൾ. നിങ്ങളുടെ ഭാഷയിൽ വിളയുടെ ജലാവശ്യം, ജലസേചന കണക്ക്, കീടനിയന്ത്രണം എന്നിവ അറിയാം.",
+        tools:"നിങ്ങളുടെ കിസാൻമിത്ര കാർഷിക സഹായി", subtitle:"വിള തിരഞ്ഞെടുക്കുക. ലോഗിൻ ആവശ്യമില്ല.",
+        waterTitle:"വിളയുടെ ജല ആസൂത്രണം", waterSub:"സീസണിലെ ജലസേചന ആവശ്യം കണക്കാക്കുക",
+        cropLabel:"വിള തിരഞ്ഞെടുക്കുക", areaLabel:"കൃഷിസ്ഥലം (ഏക്കർ)", methodLabel:"ജലസേചന രീതി",
+        surface:"ഉപരിതല / വെള്ളം കയറ്റുന്ന രീതി", drip:"തുള്ളിനന", calculate:"ജലത്തിന്റെ കണക്ക് കാണുക",
+        waterNote:"ഇവ സീസണിലെ ഏകദേശ കണക്കുകളാണ്; ദിവസേനയുള്ള ജലസേചന നിർദേശങ്ങളല്ല. യഥാർത്ഥ ആവശ്യം കാലാവസ്ഥ, മണ്ണ്, വിളയുടെ ഘട്ടം, മഴ എന്നിവയെ ആശ്രയിക്കുന്നു.",
+        pestTitle:"വിള കീട സഹായി", pestSub:"ചികിത്സയ്ക്ക് മുമ്പ് പ്രശ്നം തിരിച്ചറിയുക",
+        pestCropLabel:"ബാധിച്ച വിള തിരഞ്ഞെടുക്കുക", symptomLabel:"എന്താണ് കാണുന്നത്?",
+        holes:"ഇലകളിൽ ദ്വാരങ്ങൾ", yellow:"മഞ്ഞനിറം അല്ലെങ്കിൽ വാടൽ", spots:"പാടുകൾ", insects:"കാണാവുന്ന പ്രാണികൾ", unknown:"ഉറപ്പില്ല",
+        diagnose:"കീട മാർഗനിർദേശം നേടുക", pestNote:"ലക്ഷണങ്ങൾ മാത്രം ഉപയോഗിച്ച് കീടമോ രോഗമോ സ്ഥിരീകരിക്കാൻ കഴിയില്ല. ഈ ഉപകരണം കീടനാശിനിയോ അളവോ നിർദേശിക്കുന്നില്ല.",
+        tipsTitle:"ആരോഗ്യമുള്ള വിളയ്ക്കുള്ള നിർദേശങ്ങൾ", tipsSub:"ചെറിയ നടപടികൾ വെള്ളം സംരക്ഷിക്കുകയും വിളയെ കാക്കുകയും ചെയ്യും.",
+        tip1Title:"മഴ പരിശോധിക്കുക", tip1:"ജലസേചനത്തിന് മുമ്പ് മഴയും മണ്ണിലെ ഈർപ്പവും പരിശോധിക്കുക.",
+        tip2Title:"വിള പരിശോധിക്കുക", tip2:"ഇലകൾ പരിശോധിച്ച് സംശയമുണ്ടെങ്കിൽ കാർഷിക വിദഗ്ധനോട് ചോദിക്കുക.",
+        tip3Title:"കീടനാശിനി സുരക്ഷിതമായി ഉപയോഗിക്കുക", tip3:"ഉൽപ്പന്ന ലേബലും സുരക്ഷാ ഉപകരണ നിർദേശങ്ങളും പാലിക്കുക.",
+        footerText:"കിസാൻമിത്ര — മെച്ചപ്പെട്ട കൃഷിക്കായുള്ള സാങ്കേതികവിദ്യ.",
+        footerNote:"വിദ്യാഭ്യാസത്തിനുള്ള മാതൃക. പ്രാദേശിക കൃഷി ഉദ്യോഗസ്ഥനോട് നിർദേശങ്ങൾ ഉറപ്പാക്കുക.",
+        rice:"നെല്ല്", wheat:"ഗോതമ്പ്", maize:"ചോളം", groundnut:"നിലക്കടല", mustard:"കടുക്", okra:"വെണ്ട", onion:"ഉള്ളി", potato:"ഉരുളക്കിഴങ്ങ്",
+        seasonal:"സീസൺ കണക്ക്", irrigation:"കണക്കാക്കിയ ജലസേചന വെള്ളം", total:"മൊത്തം വിള ജല റഫറൻസ്", liters:"ലിറ്റർ", cubic:"ഘന മീറ്റർ",
+        methodMissing:"ഈ വിളയ്ക്കും രീതിക്കും കണക്ക് ലഭ്യമല്ല. കാണിച്ചിരിക്കുന്ന രീതി ലഭ്യമായ റഫറൻസ് രീതിയാണ്.",
+        recommended:"റഫറൻസ് രീതി", reference:"അവലംബം", disclaimer:"ഇത് ദിവസേനയുള്ള പട്ടികയല്ല. മഴ, മണ്ണ്, കാലാവസ്ഥ, വിളയുടെ ഘട്ടം എന്നിവ അനുസരിച്ച് ആവശ്യം മാറും.",
+        invalid:"പൂജ്യത്തേക്കാൾ കൂടുതലും 100000 ഏക്കറിൽ കൂടാത്തതുമായ കൃഷിസ്ഥലം നൽകുക.",
+        pestHeading:"വിളയ്ക്കുള്ള മാർഗനിർദേശം", pestHoles:"ഇല തിന്നുന്ന കീടങ്ങൾ കാരണമാകാം. ഇലയുടെ ഇരുവശവും പരിശോധിക്കുക.",
+        pestYellow:"വെള്ളക്കുറവ്, പോഷകക്കുറവ്, വേരുകളുടെ പ്രശ്നം അല്ലെങ്കിൽ രോഗം കാരണം ഇല മഞ്ഞയാകാം.",
+        pestSpots:"പാടുകൾ രോഗം, കീടങ്ങൾ അല്ലെങ്കിൽ മറ്റ് സമ്മർദങ്ങൾ മൂലമാകാം. കാരണം തിരിച്ചറിയാതെ തളിക്കരുത്.",
+        pestInsects:"പ്രാണിയുടെ നിറം, ആകൃതി, സ്ഥാനം എന്നിവ രേഖപ്പെടുത്തി കാർഷിക ഉദ്യോഗസ്ഥനെ കാണിക്കുക.",
+        pestUnknown:"ചെടിയുടെ ചിത്രങ്ങൾ എടുത്ത് പ്രാദേശിക കാർഷിക ഉദ്യോഗസ്ഥനോട് ചോദിക്കുക.",
+        safe:"ലക്ഷണങ്ങൾ മാത്രം നോക്കി കീടനാശിനി തിരഞ്ഞെടുക്കരുത്. വിളയ്ക്കും കീടത്തിനും അംഗീകൃതമായ ഉൽപ്പന്നം ലേബൽ അനുസരിച്ച് ഉപയോഗിക്കുക.",
+        commonPests:"സാധാരണ കീടങ്ങളും രോഗങ്ങളും", prevention:"പ്രതിരോധവും പരിചരണവും",
+        ricePests:"തണ്ടുതുരപ്പൻ, ഇലചുരുട്ടിപ്പുഴു, തവിട്ടുനിറത്തിലുള്ള പ്ലാന്റ് ഹോപ്പർ.", riceCare:"തണ്ടുകളും മടക്കിയ ഇലകളും പരിശോധിക്കുക. അമിത നൈട്രജൻ വളം ഒഴിവാക്കുക.",
+        wheatPests:"മുഞ്ഞ, ചിതൽ, തുരുമ്പുരോഗം.", wheatCare:"ഇലകളും തണ്ടുകളും പരിശോധിച്ച് നല്ല വിത്ത് ഉപയോഗിക്കുക.",
+        maizePests:"ഫാൾ ആർമിവോം, തണ്ടുതുരപ്പൻ, ഡൗണി മിൽഡ്യൂ.", maizeCare:"ഇലകളുടെ മധ്യഭാഗത്ത് പുഴുക്കളെയും പുതിയ നാശവും പരിശോധിക്കുക.",
+        groundnutPests:"ലീഫ് മൈനർ, പുകയിലപ്പുഴു, ഇലപ്പുള്ളി രോഗം.", groundnutCare:"ഇലകൾ പരിശോധിക്കുക, വിളമാറ്റം നടത്തുക, പ്രാദേശിക നിർദേശം തേടുക.",
+        mustardPests:"കടുക് മുഞ്ഞ, പെയിന്റഡ് ബഗ്, ഇലപ്പുള്ളി രോഗം.", mustardCare:"പുതിയ തളിരുകളും ഇലകളുടെ അടിഭാഗവും പരിശോധിക്കുക.",
+        okraPests:"തണ്ടും കായും തുരക്കുന്ന പുഴുക്കൾ, വെള്ളീച്ച, മഞ്ഞനരമ്പ് മൊസൈക് രോഗം.", okraCare:"തളിരുകളും കായകളും പരിശോധിച്ച് വെള്ളീച്ചയെ നിരീക്ഷിക്കുക.",
+        onionPests:"ത്രിപ്സ്, പർപ്പിൾ ബ്ലാച്ച്, അടിഭാഗത്തെ ചീയൽ.", onionCare:"ഇലകൾ പരിശോധിച്ച് ശരിയായ നീർവാർച്ച ഉറപ്പാക്കുക.",
+        potatoPests:"ഉരുളക്കിഴങ്ങ് കിഴങ്ങുപുഴു, മുഞ്ഞ, ലേറ്റ് ബ്ലൈറ്റ്.", potatoCare:"ഇലകളും കിഴങ്ങുകളും പരിശോധിച്ച് നല്ല വിത്തുകിഴങ്ങുകൾ ഉപയോഗിക്കുക.",
+        officialInfo:"ഇന്ത്യയിലെ ഔദ്യോഗിക കീടനാശിനി വിവരങ്ങൾ"
+      }
+    };
+
+    // Crop names and all displayed interface text change with the selected language.
+    let lang = "en";
+
+    function tr(key) {
+      return translations[lang]?.[key] ?? translations.en[key] ?? key;
+    }
+
+    function setLanguage() {
+      lang = document.getElementById("language").value;
+
+      document.querySelectorAll("[data-i]").forEach(el => {
+        const value = tr(el.dataset.i);
+        if (el.tagName === "OPTION") {
+          el.textContent = value;
+        } else {
+          el.innerHTML = value;
+        }
+      });
+
+      document.documentElement.lang = lang;
+
+      // Keep the KisanMitra brand fixed while changing interface language.
+      document.title = "KisanMitra | " + (
+        lang === "en" ? "Smart Farming" :
+        lang === "te" ? "స్మార్ట్ వ్యవసాయం" :
+        lang === "hi" ? "स्मार्ट खेती" :
+        lang === "mr" ? "स्मार्ट शेती" :
+        lang === "bn" ? "স্মার্ট কৃষি" :
+        lang === "ta" ? "நவீன விவசாயம்" :
+        "സ്മാർട്ട് കൃഷി"
+      );
+
+      if (!document.getElementById("waterResult").hidden) calculateWater();
+      if (!document.getElementById("pestResult").hidden) diagnosePest();
+    }
+
+    document.getElementById("language").addEventListener("change", setLanguage);
+
+    function formatNumber(value) {
+      return Math.round(value).toLocaleString("en-IN");
+    }
+
+    function updateMethodOptions() {
+      const crop = crops[document.getElementById("crop").value];
+      const methodSelect = document.getElementById("method");
+
+      Array.from(methodSelect.options).forEach(opt => {
+        opt.disabled = !crop.methods[opt.value];
+      });
+
+      if (!crop.methods[methodSelect.value]) {
+        methodSelect.value = Object.keys(crop.methods)[0];
+      }
+    }
+
+    function calculateWater() {
+      const cropId = document.getElementById("crop").value;
+      const method = document.getElementById("method").value;
+      const areaInput = document.getElementById("area");
+      const area = Number(areaInput.value);
+      const output = document.getElementById("waterResult");
+
+      if (areaInput.value.trim() === "") {
+        output.hidden = true;
+        return;
+      }
+
+      output.hidden = false;
+
+      if (!Number.isFinite(area) || area <= 0 || area > 100000) {
+        output.textContent = tr("invalid");
+        return;
+      }
+
+      const crop = crops[cropId];
+      const data = crop.methods[method];
+
+      // 1 mm of water over 1 m² equals 1 litre.
+      // 1 acre is approximately 4046.86 m².
+      const areaM2 = area * 4046.86;
+      const lowLitres = data.irrigation[0] * areaM2;
+      const highLitres = data.irrigation[1] * areaM2;
+      const lowM3 = lowLitres / 1000;
+      const highM3 = highLitres / 1000;
+
+      const range = (lo, hi) =>
+        formatNumber(lo) === formatNumber(hi)
+          ? formatNumber(lo)
+          : `${formatNumber(lo)}–${formatNumber(hi)}`;
+
+      const totalHtml = data.total ? `
+        <p><strong>${tr("total")}:</strong><br>
+        ${range(data.total[0] * areaM2, data.total[1] * areaM2)} ${tr("liters")}</p>
+      ` : "";
+
+      output.innerHTML = `
+        <h4>💧 ${tr("seasonal")}: ${tr(cropId)}</h4>
+        <p><strong>${tr("irrigation")}:</strong></p>
+        <p>${range(lowLitres, highLitres)} ${tr("liters")}</p>
+        <p>${range(lowM3, highM3)} ${tr("cubic")}</p>
+        ${totalHtml}
+        <p><strong>${tr("recommended")}:</strong> ${tr(method)}</p>
+        <p><strong>${tr("reference")}:</strong> ${data.reference}</p>
+        ${data.indicative ? `<div class="notice">⚠️ ${tr("disclaimer")}</div>` : ""}
+        <div class="notice">⚠️ ${tr("disclaimer")}</div>
+      `;
+    }
+
+    const pestKeys = {
+      holes: "pestHoles",
+      yellow: "pestYellow",
+      spots: "pestSpots",
+      insects: "pestInsects",
+      unknown: "pestUnknown"
+    };
+
+    const pestCropKeys = {
+      rice: ["ricePests", "riceCare"],
+      wheat: ["wheatPests", "wheatCare"],
+      maize: ["maizePests", "maizeCare"],
+      groundnut: ["groundnutPests", "groundnutCare"],
+      mustard: ["mustardPests", "mustardCare"],
+      okra: ["okraPests", "okraCare"],
+      onion: ["onionPests", "onionCare"],
+      potato: ["potatoPests", "potatoCare"]
+    };
+
+    function diagnosePest() {
+      const cropId = document.getElementById("pestCrop").value;
+      const symptom = document.getElementById("symptom").value;
+      const output = document.getElementById("pestResult");
+      const keys = pestCropKeys[cropId];
+
+      output.hidden = false;
+      output.innerHTML = `
+        <h4>🍃 ${tr("pestHeading")}: ${tr(cropId)}</h4>
+        <p><strong>${tr("observation") || "Observation"}:</strong></p>
+        <p>${tr(pestKeys[symptom])}</p>
+        <p style="margin-top:12px"><strong>${tr("commonPests")}:</strong></p>
+        <p>${tr(keys[0])}</p>
+        <p style="margin-top:12px"><strong>${tr("prevention")}:</strong></p>
+        <p>${tr(keys[1])}</p>
+        <div class="notice">⚠️ ${tr("safe")}</div>
+        <p class="small" style="margin-top:12px">
+          <a href="https://ppqs.gov.in/" target="_blank" rel="noopener noreferrer">${tr("officialInfo")}</a>
+        </p>
+      `;
+    }
+
+    document.getElementById("calculate").addEventListener("click", calculateWater);
+    document.getElementById("crop").addEventListener("change", () => {
+      updateMethodOptions();
+      calculateWater();
+    });
+    document.getElementById("method").addEventListener("change", calculateWater);
+    document.getElementById("area").addEventListener("input", calculateWater);
+    document.getElementById("diagnose").addEventListener("click", diagnosePest);
+    document.getElementById("pestCrop").addEventListener("change", diagnosePest);
+    document.getElementById("symptom").addEventListener("change", diagnosePest);
+
+    updateMethodOptions();
+    setLanguage();
+    calculateWater();
+    diagnosePest();
+  </script>
+</body>
+</html>
